@@ -30,7 +30,10 @@ public class DataGenerator {
     }
 
     public static String generateName(Faker faker) {
-        return faker.name().fullName();
+        return faker.name()
+                .fullName()
+                .replace("ё", "е")
+                .replace("Ё", "Е");
     }
 
     public static String generatePhone(Faker faker) {
