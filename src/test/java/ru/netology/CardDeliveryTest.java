@@ -17,7 +17,9 @@ public class CardDeliveryTest {
     @BeforeAll
     static void setUp() {
         Configuration.browser = "chrome";
+        Configuration.headless = true;
         ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless=new");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
 
