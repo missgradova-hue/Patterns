@@ -1,9 +1,9 @@
 package ru.netology;
 
 import com.codeborne.selenide.Configuration;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.time.Duration;
@@ -17,18 +17,12 @@ public class CardDeliveryTest {
     @BeforeAll
     static void setUp() {
         Configuration.browser = "chrome";
-        Configuration.headless = true;
+
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless=new");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
 
         Configuration.browserCapabilities = options;
-    }
-
-    @AfterAll
-    static void tearDown() {
-        closeWebDriver();
     }
 
     @Test
@@ -40,7 +34,6 @@ public class CardDeliveryTest {
         String secondDate = DataGenerator.generateDate(7);
 
         open("http://localhost:9999");
-
 
         $("[data-test-id='city'] input")
                 .setValue(user.getCity());
@@ -63,11 +56,17 @@ public class CardDeliveryTest {
 
 
         $("[data-test-id='success-notification']")
-                .shouldBe(visible, Duration.ofSeconds(15));
+                .shouldBe(visible, Duration.ofSeconds(15))
+                .shouldHave(text("Успешно"))
+                .shouldHave(text(firstDate));
 
 
         $("[data-test-id='date'] input")
-                .setValue(secondDate);
+                .toWebElement()
+                .sendKeys(Keys.chord(Keys.CONTROL, "a"),
+                        secondDate
+                );
+
 
         $$("button")
                 .findBy(text("Запланировать"))
@@ -86,6 +85,11 @@ public class CardDeliveryTest {
 
 
         $("[data-test-id='success-notification']")
-                .shouldBe(visible, Duration.ofSeconds(15));
+                .shouldBe(visible, Duration.ofSeconds(15))
+                .shouldHave(text("Успешно"))
+                .shouldHave(text(secondDate), Duration.ofSeconds(15));
     }
 }
+//Добрый день.Извиняюсь за доставленные неудобства.Я помню правила сдачи домашних работ.
+// Ведь я каждый раз отправляю ссылки на ОБЕ задачи.Не знаю почему так происходит,что приходит какая-то одна.
+//Надеюсь в этот раз будут обе.
