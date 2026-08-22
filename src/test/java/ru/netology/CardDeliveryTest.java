@@ -4,7 +4,7 @@ import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.chrome.ChromeOptions;
+
 
 import java.time.Duration;
 
@@ -18,11 +18,6 @@ public class CardDeliveryTest {
     static void setUp() {
         Configuration.browser = "chrome";
 
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
-
-        Configuration.browserCapabilities = options;
     }
 
     @Test
@@ -55,14 +50,14 @@ public class CardDeliveryTest {
                 .click();
 
 
-        $("[data-test-id='success-notification']")
-                .shouldBe(visible, Duration.ofSeconds(15))
-                .shouldHave(text("Успешно"))
-                .shouldHave(text(firstDate));
+        $("[data-test-id='success-notification'] .notification__content")
+
+                .shouldHave(text("Встреча успешно запланирована на " + firstDate),
+                        Duration.ofSeconds(15));
 
 
         $("[data-test-id='date'] input")
-                .toWebElement()
+
                 .sendKeys(Keys.chord(Keys.CONTROL, "a"),
                         secondDate
                 );
@@ -84,12 +79,10 @@ public class CardDeliveryTest {
                 .click();
 
 
-        $("[data-test-id='success-notification']")
-                .shouldBe(visible, Duration.ofSeconds(15))
-                .shouldHave(text("Успешно"))
-                .shouldHave(text(secondDate), Duration.ofSeconds(15));
+        $("[data-test-id='success-notification'] .notification__content")
+                .shouldHave(text("Встреча успешно запланирована на " + secondDate),
+                        Duration.ofSeconds(15));
+
+
     }
 }
-//Добрый день.Извиняюсь за доставленные неудобства.Я помню правила сдачи домашних работ.
-// Ведь я каждый раз отправляю ссылки на ОБЕ задачи.Не знаю почему так происходит,что приходит какая-то одна.
-//Надеюсь в этот раз будут обе.
