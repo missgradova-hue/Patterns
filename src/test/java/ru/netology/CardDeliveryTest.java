@@ -1,7 +1,5 @@
 package ru.netology;
 
-import com.codeborne.selenide.Configuration;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
 
@@ -14,11 +12,6 @@ import static com.codeborne.selenide.Selenide.*;
 
 public class CardDeliveryTest {
 
-    @BeforeAll
-    static void setUp() {
-        Configuration.browser = "chrome";
-
-    }
 
     @Test
     void shouldReplanDelivery() {
